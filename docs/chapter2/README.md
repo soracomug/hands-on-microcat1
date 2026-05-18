@@ -1,4 +1,4 @@
-# 2: hello, world で L チカ
+# 2: Lチカでmicrocat1の動作とMicroPythonでの制御方法を理解する
 
 この章では、最初の動作確認として LED を点滅させます。
 
