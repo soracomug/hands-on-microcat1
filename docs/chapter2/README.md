@@ -9,20 +9,35 @@
 ## この章のゴール
 
 - Thonny から microcat1 にコードを書き込む
-- `hello, world` 相当の最小コードで L チカできることを確認する
+- 最小コードで LEDを点滅(Lチカ)させ、microcat1を内蔵のMicro Pythonで制御できることを確認する
 
-## 手順の下書き
+## 手順
 
-1. 新しいスクリプトを作成する
-2. LED を点滅させるサンプルコードを貼り付ける
-3. microcat1 に保存して実行する
-4. LED の点滅を確認する
+microcat1に内蔵されたLEDを、pythonから点滅させてみましょう。
+microcat1には、2つのLEDが搭載されています。
 
-## この章で掲載する内容
+![LEDの位置](image/led_position.png)
 
-- 最小サンプルコード
-- 書き込み先の選び方
-- 動かなかったときの確認ポイント
+以下のソースコードを貼り付け、実行してみましょう。
+
+```python
+from machine import Pin
+from time import sleep
+
+led = Pin("LED", Pin.OUT)
+
+while True:
+    led.on()
+    sleep(0.25)
+    led.off()
+    sleep(0.75)
+```
+
+LED1が0.25秒点灯し、0.75秒消灯する動作を繰り返すはずです。
+
+応用として、LED2を点滅させてみましょう。4行目の`"LED"`を`"LED2"`に変更してみてください。LED2は、GPIO29に接続されていますので、`29`でも同様に点滅させることができます。
+
+このように、Raspberry Pi Pico2と同様に、MicroPythonから`Pin()` 関数を使うことで、GPIOの操作が簡単に行えます。
 
 ---
 - 次: [3: SIM の開通と SORACOM Harvest Data の設定](../chapter3/README.md)
