@@ -35,10 +35,12 @@
    ![img1](./img/img1.png)
 
 2. microcat1 を USB ケーブルで接続する
+   microcat1 を USB ケーブルでPCに接続します。USB-C ケーブルを利用して、microcat1 の USB ポートと PC の USB ポートを接続してください。
 
 3. Thonny を起動してインタープリタ設定を確認する
+   Thonnyを起動し、実行＞インタプリンタ設定を選択し、デバイスはRaspberryPi Picoを選択します。表示名 Board CDCを選択します。これで、IDEを利用して MicroCat.1へのコード書き込み、実行が可能になります。
 
-thonnyを起動し、実行＞インタプリンタ設定を選択し、デバイスはRaspberryPi Pico 、を選択します。これで、IDEを利用して MicroCat.1へのコード書き込み、実行が可能になります。
+   ![img2](./img/img2.png)
 
 4. サンプルコードを書き込める状態まで準備する
 
