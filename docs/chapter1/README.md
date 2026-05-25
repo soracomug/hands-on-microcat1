@@ -53,5 +53,4 @@
 - 初回接続時の注意点があれば追記予定
 
 ---
-
 - 次: [2: hello, world で L チカ](../chapter2/README.md)
