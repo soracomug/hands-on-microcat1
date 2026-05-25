@@ -22,27 +22,27 @@
 
 ## 手順の下書き
 
-1. Thonny をインストールする
+1. Thonny をインストールする  
    最初にPCでコードを編集して実行させるためのIDEが必要ですので、以下のThonnyをインストールします。
 
    [https://thonny.org/](https://thonny.org/)
 
    Thonnyは、エストニアのタルトゥ大学で開発された統合開発環境（IDE）です。Raspberry Pi PicoやM5Stackといった、MicroPythonを動かすためのマイコン制御に定評があります。
 
-   サイトに遷移し、キャプチャの通り、OSに合わせたインストーラーをダウンロードしてインストールしてください。
+   サイトに遷移し、キャプチャの通り、OSに合わせたインストーラーをダウンロードしてインストールしてください。  
    ※本手順ではWindows版を利用しています。
 
    ![img1](./img/img1.png)
 
-2. microcat1 を USB ケーブルで接続する
+2. microcat1 を USB ケーブルで接続する  
    microcat1 を USB ケーブルでPCに接続します。USB-C ケーブルを利用して、microcat1 の USB ポートと PC の USB ポートを接続してください。
 
-3. Thonny を起動してインタープリタ設定を確認する
+3. Thonny を起動してインタープリタ設定を確認する  
    Thonnyを起動し、実行＞インタプリンタ設定を選択し、デバイスはRaspberryPi Picoを選択します。表示名 Board CDCを選択します。これで、IDEを利用して MicroCat.1へのコード書き込み、実行が可能になります。
 
    ![img2](./img/img2.png)
 
-4. サンプルコードを書き込める状態まで準備する
+4. サンプルコードを書き込める状態まで準備する  
    シェルに以下のように表示されていれば、Thonnyからmicrocat1にコードを書き込む準備ができています。
 
    ![img3](./img/img3.png)
@@ -53,4 +53,5 @@
 - 初回接続時の注意点があれば追記予定
 
 ---
+
 - 次: [2: hello, world で L チカ](../chapter2/README.md)
