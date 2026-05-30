@@ -31,9 +31,105 @@
 
 `mcu_temp_c` は温度計として正確な値を測るためではなく、Harvest Data に数値が届くことを確認するために使います。
 
-## サンプルコードを実行する
+## REPL で 1 つずつ確認する
 
-Thonny で新しいファイルを作成し、次のコードを貼り付けて実行します。
+まずは Thonny の REPL で 1 つずつ実行し、どこまで成功しているか確認します。
+
+### ライブラリを読み込む
+
+```python
+from machine import ADC
+from utime import sleep, ticks_diff, ticks_ms
+import requests
+import SIM7672
+```
+
+エラーが表示されなければ次に進みます。
+
+### 内部データを取得する
+
+```python
+temp_sensor = ADC(4)
+conversion_factor = 3.3 / 65535
+
+
+def read_mcu_temperature_c():
+    voltage = temp_sensor.read_u16() * conversion_factor
+    return 27 - (voltage - 0.706) / 0.001721
+```
+
+`uptime_ms` と `mcu_temp_c` を確認します。
+
+```python
+print(ticks_ms())
+print(round(read_mcu_temperature_c(), 2))
+```
+
+どちらも数値が表示されれば、内部データを取得できています。
+
+### セルラー接続する
+
+```python
+modem = SIM7672.modem()
+modem.active(True)
+modem.connect("soracom.io", "sora", "sora", "IP", 3)
+```
+
+接続が完了するまで待ちます。
+
+```python
+started_at = ticks_ms()
+while not modem.isconnected():
+    if ticks_diff(ticks_ms(), started_at) > 60000:
+        raise RuntimeError("modem connection timeout")
+    print("connecting...")
+    sleep(1)
+```
+
+接続状態を確認します。
+
+```python
+print(modem.isconnected())
+print(modem.ifconfig())
+```
+
+`True` と IP アドレスなどが表示されれば、セルラー通信の準備ができています。
+
+### Harvest Data に送信する
+
+送信するデータを作ります。
+
+```python
+payload = {
+    "uptime_ms": ticks_ms(),
+    "mcu_temp_c": round(read_mcu_temperature_c(), 2),
+}
+print(payload)
+```
+
+Unified Endpoint に送信します。
+
+```python
+response = requests.post("http://uni.soracom.io/", json=payload)
+print(response.status_code)
+print(response.text)
+response.close()
+```
+
+`201` が表示されれば、SORACOM Harvest Data にデータが保存されています。`response.text` が空でも問題ありません。
+
+最後に接続を終了します。
+
+```python
+modem.disconnect()
+modem.active(False)
+```
+
+## コードとして保存する
+
+REPL で確認できたら、同じ処理を 1 つのコードとして保存します。
+
+Thonny で新しいファイルを作成し、次のコードを貼り付けます。その後、microcat1 に `main.py` としてアップロードして実行します。
 
 ```python
 from machine import ADC
