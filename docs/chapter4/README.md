@@ -170,6 +170,8 @@ status: 201
 body:
 ```
 
+![Thonny の Run ボタンでコードを実行する](./images/thonny-run-main-py.png)
+
 ## Harvest Data で確認する
 
 SORACOM ユーザーコンソールで Harvest Data を開き、対象の SIM を選択します。
