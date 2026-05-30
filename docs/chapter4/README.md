@@ -33,13 +33,13 @@
 
 ## REPL で 1 つずつ確認する
 
-まずは Thonny の REPL で 1 つずつ実行し、どこまで成功しているか確認します。
+まずは Thonny の REPL で、各コードブロックの内容を上から 1 行ずつ入力します。どこまで成功しているか確認しながら進めます。
 
 ### ライブラリを読み込む
 
 ```python
 from machine import ADC
-from utime import sleep, ticks_diff, ticks_ms
+from utime import ticks_ms
 import requests
 import SIM7672
 ```
@@ -51,18 +51,15 @@ import SIM7672
 ```python
 temp_sensor = ADC(4)
 conversion_factor = 3.3 / 65535
-
-
-def read_mcu_temperature_c():
-    voltage = temp_sensor.read_u16() * conversion_factor
-    return 27 - (voltage - 0.706) / 0.001721
+voltage = temp_sensor.read_u16() * conversion_factor
+mcu_temp_c = 27 - (voltage - 0.706) / 0.001721
 ```
 
 `uptime_ms` と `mcu_temp_c` を確認します。
 
 ```python
 print(ticks_ms())
-print(round(read_mcu_temperature_c(), 2))
+print(round(mcu_temp_c, 2))
 ```
 
 どちらも数値が表示されれば、内部データを取得できています。
@@ -75,35 +72,29 @@ modem.active(True)
 modem.connect("soracom.io", "sora", "sora", "IP", 3)
 ```
 
-接続が完了するまで待ちます。
-
-```python
-started_at = ticks_ms()
-while not modem.isconnected():
-    if ticks_diff(ticks_ms(), started_at) > 60000:
-        raise RuntimeError("modem connection timeout")
-    print("connecting...")
-    sleep(1)
-```
-
 接続状態を確認します。
 
 ```python
 print(modem.isconnected())
+```
+
+`False` が表示された場合は、数秒待ってから同じ行をもう一度実行します。`True` が表示されたら IP アドレスなどを確認します。
+
+```python
 print(modem.ifconfig())
 ```
 
-`True` と IP アドレスなどが表示されれば、セルラー通信の準備ができています。
+`print(modem.isconnected())` で `True`、`print(modem.ifconfig())` で IP アドレスなどが表示されれば、セルラー通信の準備ができています。
 
 ### Harvest Data に送信する
 
 送信するデータを作ります。
 
 ```python
-payload = {
-    "uptime_ms": ticks_ms(),
-    "mcu_temp_c": round(read_mcu_temperature_c(), 2),
-}
+uptime_ms = ticks_ms()
+voltage = temp_sensor.read_u16() * conversion_factor
+mcu_temp_c = 27 - (voltage - 0.706) / 0.001721
+payload = {"uptime_ms": uptime_ms, "mcu_temp_c": round(mcu_temp_c, 2)}
 print(payload)
 ```
 
