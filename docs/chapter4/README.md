@@ -27,9 +27,9 @@
 | 項目 | 内容 |
 | --- | --- |
 | `uptime_ms` | プログラム実行時点の起動後経過時間です。 |
-| `mem_free_bytes` | MicroPython が利用できる空きメモリ量です。 |
+| `mcu_temp_c` | microcat1 の MCU 内蔵温度センサーから取得した温度の概算値です。 |
 
-`uptime_ms` と `mem_free_bytes` は、どちらも外付けセンサーを使わずに microcat1 の内部で取得できる値です。
+`uptime_ms` と `mcu_temp_c` は、どちらも外付けセンサーを使わずに microcat1 の内部で取得できる値です。
 
 ## REPL で 1 つずつ確認する
 
@@ -38,8 +38,8 @@
 ### ライブラリを読み込む
 
 ```python
+from machine import ADC
 from utime import ticks_ms
-import gc
 import requests
 import SIM7672
 ```
@@ -49,11 +49,17 @@ import SIM7672
 ### 内部データを取得する
 
 ```python
+temp_sensor = ADC(ADC.CORE_TEMP)
+raw = temp_sensor.read_u16()
+voltage = raw * 3.3 / 65535
+mcu_temp_c = 27 - (voltage - 0.706) / 0.001721
 print(ticks_ms())
-print(gc.mem_free())
+print(round(mcu_temp_c, 2))
 ```
 
 どちらも数値が表示されれば、内部データを取得できています。
+
+microcat1 では、MCU 内蔵温度センサーの ADC 入力を `ADC(ADC.CORE_TEMP)` で指定します。MicroCat.1 は RP2350B のため、古い Pico/RP2040 向けの例で見かける `ADC(4)` は使いません。
 
 ![Thonny の REPL で内部データを確認する](./images/thonny-repl-internal-data.png)
 
@@ -84,7 +90,10 @@ print(modem.ifconfig())
 送信するデータを作ります。
 
 ```python
-payload = {"uptime_ms": ticks_ms(), "mem_free_bytes": gc.mem_free()}
+raw = temp_sensor.read_u16()
+voltage = raw * 3.3 / 65535
+mcu_temp_c = 27 - (voltage - 0.706) / 0.001721
+payload = {"uptime_ms": ticks_ms(), "mcu_temp_c": round(mcu_temp_c, 2)}
 print(payload)
 ```
 
@@ -114,10 +123,19 @@ REPL で確認できたら、同じ処理を 1 つのコードとして保存し
 Thonny で新しいファイルを作成し、次のコードを貼り付けます。その後、microcat1 に `main.py` としてアップロードして実行します。
 
 ```python
-import gc
+from machine import ADC
 from utime import sleep, ticks_diff, ticks_ms
 import requests
 import SIM7672
+
+
+temp_sensor = ADC(ADC.CORE_TEMP)
+
+
+def read_mcu_temperature_c():
+    raw = temp_sensor.read_u16()
+    voltage = raw * 3.3 / 65535
+    return 27 - (voltage - 0.706) / 0.001721
 
 
 modem = SIM7672.modem()
@@ -137,7 +155,7 @@ try:
 
     payload = {
         "uptime_ms": ticks_ms(),
-        "mem_free_bytes": gc.mem_free(),
+        "mcu_temp_c": round(read_mcu_temperature_c(), 2),
     }
     print("payload:", payload)
 
@@ -155,7 +173,7 @@ finally:
 
 - `connected: True` が表示される
 - `ifconfig:` に IP アドレスなどが表示される
-- `payload:` に `uptime_ms` と `mem_free_bytes` が表示される
+- `payload:` に `uptime_ms` と `mcu_temp_c` が表示される
 - `status: 201` が表示される
 
 `status: 201` が表示されれば、SORACOM Harvest Data にデータが保存されています。`body:` の後ろが空でも問題ありません。
@@ -164,8 +182,8 @@ finally:
 
 ```text
 connected: True
-ifconfig: ('10.xxx.xxx.xxx', '255.255.255.255', '0.0.0.0', '100.127.0.53')
-payload: {'uptime_ms': 123456, 'mem_free_bytes': 8613248}
+ifconfig: ('10.164.98.251', '255.255.255.255', '10.64.64.64', '100.127.0.53')
+payload: {'uptime_ms': 123456, 'mcu_temp_c': 31.73}
 status: 201
 body:
 ```
@@ -176,7 +194,7 @@ body:
 
 SORACOM ユーザーコンソールで Harvest Data を開き、対象の SIM を選択します。
 
-データの一覧に、送信した `uptime_ms` と `mem_free_bytes` が表示されていれば成功です。
+データの一覧に、送信した `uptime_ms` と `mcu_temp_c` が表示されていれば成功です。
 
 ## FAQ
 
