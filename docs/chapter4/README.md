@@ -192,7 +192,7 @@ body:
 
 ## Harvest Data で確認する
 
-SORACOM ユーザーコンソールで Harvest Data を開き、対象の SIM を選択します。
+SORACOM ユーザーコンソールで Harvest Data を開き、対象の SIM を選択します。詳しい画面操作は [Harvest Data のデータを確認する手順](https://users.soracom.io/ja-jp/docs/harvest/visualize/) を参照してください。
 
 データの一覧に、送信した `uptime_ms` と `mcu_temp_c` が表示されていれば成功です。
 
