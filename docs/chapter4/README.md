@@ -27,9 +27,9 @@
 | 項目 | 内容 |
 | --- | --- |
 | `uptime_ms` | プログラム実行時点の起動後経過時間です。 |
-| `mcu_temp_c` | MCU の内部温度の概算値です。 |
+| `mem_free_bytes` | MicroPython が利用できる空きメモリ量です。 |
 
-`mcu_temp_c` は温度計として正確な値を測るためではなく、Harvest Data に数値が届くことを確認するために使います。
+`uptime_ms` と `mem_free_bytes` は、どちらも外付けセンサーを使わずに microcat1 の内部で取得できる値です。
 
 ## REPL で 1 つずつ確認する
 
@@ -38,8 +38,8 @@
 ### ライブラリを読み込む
 
 ```python
-from machine import ADC
 from utime import ticks_ms
+import gc
 import requests
 import SIM7672
 ```
@@ -49,20 +49,13 @@ import SIM7672
 ### 内部データを取得する
 
 ```python
-temp_sensor = ADC(4)
-conversion_factor = 3.3 / 65535
-voltage = temp_sensor.read_u16() * conversion_factor
-mcu_temp_c = 27 - (voltage - 0.706) / 0.001721
-```
-
-`uptime_ms` と `mcu_temp_c` を確認します。
-
-```python
 print(ticks_ms())
-print(round(mcu_temp_c, 2))
+print(gc.mem_free())
 ```
 
 どちらも数値が表示されれば、内部データを取得できています。
+
+![Thonny の REPL で内部データを確認する](./images/thonny-repl-internal-data.png)
 
 ### セルラー接続する
 
@@ -91,10 +84,7 @@ print(modem.ifconfig())
 送信するデータを作ります。
 
 ```python
-uptime_ms = ticks_ms()
-voltage = temp_sensor.read_u16() * conversion_factor
-mcu_temp_c = 27 - (voltage - 0.706) / 0.001721
-payload = {"uptime_ms": uptime_ms, "mcu_temp_c": round(mcu_temp_c, 2)}
+payload = {"uptime_ms": ticks_ms(), "mem_free_bytes": gc.mem_free()}
 print(payload)
 ```
 
@@ -113,8 +103,9 @@ response.close()
 
 ```python
 modem.disconnect()
-modem.active(False)
 ```
+
+![Thonny の REPL から Harvest Data に送信する](./images/thonny-repl-harvest-post.png)
 
 ## コードとして保存する
 
@@ -123,19 +114,10 @@ REPL で確認できたら、同じ処理を 1 つのコードとして保存し
 Thonny で新しいファイルを作成し、次のコードを貼り付けます。その後、microcat1 に `main.py` としてアップロードして実行します。
 
 ```python
-from machine import ADC
+import gc
 from utime import sleep, ticks_diff, ticks_ms
 import requests
 import SIM7672
-
-
-temp_sensor = ADC(4)
-conversion_factor = 3.3 / 65535
-
-
-def read_mcu_temperature_c():
-    voltage = temp_sensor.read_u16() * conversion_factor
-    return 27 - (voltage - 0.706) / 0.001721
 
 
 modem = SIM7672.modem()
@@ -155,7 +137,7 @@ try:
 
     payload = {
         "uptime_ms": ticks_ms(),
-        "mcu_temp_c": round(read_mcu_temperature_c(), 2),
+        "mem_free_bytes": gc.mem_free(),
     }
     print("payload:", payload)
 
@@ -165,7 +147,6 @@ try:
     response.close()
 finally:
     modem.disconnect()
-    modem.active(False)
 ```
 
 ## 実行結果を確認する
@@ -174,7 +155,7 @@ finally:
 
 - `connected: True` が表示される
 - `ifconfig:` に IP アドレスなどが表示される
-- `payload:` に `uptime_ms` と `mcu_temp_c` が表示される
+- `payload:` に `uptime_ms` と `mem_free_bytes` が表示される
 - `status: 201` が表示される
 
 `status: 201` が表示されれば、SORACOM Harvest Data にデータが保存されています。`body:` の後ろが空でも問題ありません。
@@ -184,7 +165,7 @@ finally:
 ```text
 connected: True
 ifconfig: ('10.xxx.xxx.xxx', '255.255.255.255', '0.0.0.0', '100.127.0.53')
-payload: {'uptime_ms': 123456, 'mcu_temp_c': 31.25}
+payload: {'uptime_ms': 123456, 'mem_free_bytes': 8613248}
 status: 201
 body:
 ```
@@ -193,7 +174,7 @@ body:
 
 SORACOM ユーザーコンソールで Harvest Data を開き、対象の SIM を選択します。
 
-データの一覧に、送信した `uptime_ms` と `mcu_temp_c` が表示されていれば成功です。
+データの一覧に、送信した `uptime_ms` と `mem_free_bytes` が表示されていれば成功です。
 
 ## FAQ
 
@@ -204,6 +185,10 @@ SIM が所属するグループで SORACOM Harvest Data が ON になってい�
 ### `connected: False` になる
 
 セルラー接続が完了していない状態です。数十秒待ってから再実行してください。改善しない場合は、SIM の挿入状態とアンテナの接続を確認します。
+
+### Thonny の接続が切れた
+
+Thonny のメニューから `Run` -> `Stop/Restart backend` を選択して、microcat1 に再接続します。Shell に `>>>` が表示されれば再開できます。
 
 ### Harvest Data にデータが表示されない
 
