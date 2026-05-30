@@ -192,9 +192,19 @@ body:
 
 ## Harvest Data で確認する
 
-SORACOM ユーザーコンソールで Harvest Data を開き、対象の SIM を選択します。詳しい画面操作は [Harvest Data のデータを確認する手順](https://users.soracom.io/ja-jp/docs/harvest/visualize/) を参照してください。
+SORACOM ユーザーコンソールで `SIM 管理` を開き、対象の SIM にチェックを入れます。
 
-データの一覧に、送信した `uptime_ms` と `mcu_temp_c` が表示されていれば成功です。
+![SIM 管理で対象の SIM を選択する](./images/console-sim-select.png)
+
+`操作` をクリックし、メニューを下へスクロールして `ログと診断` の `Harvest Data を表示` をクリックします。
+
+![操作メニューから Harvest Data を表示する](./images/console-show-harvest-data.png)
+
+Harvest Data の画面が開きます。グラフ表示や表示範囲の変更など、詳しい画面操作は [Harvest Data のデータを確認する手順](https://users.soracom.io/ja-jp/docs/harvest/visualize/) を参照してください。
+
+![Harvest Data で送信データを確認する](./images/console-harvest-data-result.png)
+
+`Data Series` に `uptime_ms` と `mcu_temp_c` が表示され、グラフまたはテーブルで値を確認できれば成功です。
 
 ## FAQ
 
