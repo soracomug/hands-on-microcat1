@@ -22,4 +22,5 @@
 - 発展課題用のサンプルコード
 
 ---
+- 次: [6: あとかたづけと注意事項](../chapter6/README.md)
 - 前: [4: SORACOM へデータ送信して Harvest で確認](../chapter4/README.md)
