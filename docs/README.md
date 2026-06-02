@@ -1,4 +1,4 @@
-# microcat1 ハンズオン
+# MicroCat.1 ハンズオン
 
 - [1: 環境構築 (Thonny インストール)](./chapter1/README.md)
 - [2: hello, world で L チカ](./chapter2/README.md)

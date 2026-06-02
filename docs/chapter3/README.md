@@ -63,7 +63,7 @@ SIM の登録手順は、公式ドキュメントの「イベント会場など�
 ![SIM 管理画面で SIM を確認する](image/sim-management-filtered.png)
 
 > [!TIP]
-> SIM を区別しやすくするため、SIM の `名前` に `microcat1-handson` などを設定しておくと、このあとの手順で対象 SIM を見つけやすくなります。
+> SIM を区別しやすくするため、SIM の `名前` に `MicroCat.1-handson` などを設定しておくと、このあとの手順で対象 SIM を見つけやすくなります.
 
 ## 3. Harvest 用の SIM グループを作成する
 
@@ -130,7 +130,7 @@ SIM 管理画面に戻り、対象 SIM の `グループ` に選択したグル�
 ![グループに SIM が所属していることを確認する](image/sim-group-member-sim.png)
 
 確認できたら、この章は完了です。
-次の章では microcat1 からデータを送信し、Harvest Data に保存されることを確認します。
+次の章では MicroCat.1 からデータを送信し、Harvest Data に保存されることを確認します。
 
 ## FAQ
 

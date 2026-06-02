@@ -1,6 +1,6 @@
 # 1: 環境構築 (Thonny インストール)
 
-この章では、microcat1 にプログラムを書き込むための開発環境を準備します。
+この章では、MicroCat.1 にプログラムを書き込むための開発環境を準備します。
 
 ## 想定時間
 
@@ -9,12 +9,12 @@
 ## この章のゴール
 
 - Thonny をインストールする
-- microcat1 を PC に接続する
+- MicroCat.1 を PC に接続する
 - MicroPython の書き込み先を確認する
 
 ## 事前に用意するもの
 
-- microcat1
+- MicroCat.1
 - USB ケーブル
 - PC
 - SORACOM ユーザーコンソールにログインできるアカウント
@@ -34,8 +34,8 @@
 
    ![img1](./img/img1.png)
 
-2. microcat1 を USB ケーブルで接続する  
-   microcat1 を USB ケーブルで PC に接続します。USB-C ケーブルを利用して、microcat1 の USB ポートと PC の USB ポートを接続してください。
+2. MicroCat.1 を USB ケーブルで接続する  
+   MicroCat.1 を USB ケーブルで PC に接続します。USB-C ケーブルを利用して、MicroCat.1 の USB ポートと PC の USB ポートを接続してください。
 
 3. Thonny を起動してインタープリタ設定を確認する  
    Thonnyを起動し、実行＞インタプリンタ設定を選択し、デバイスはRaspberryPi Picoを選択します。表示名 Board CDCを選択します。  
@@ -45,7 +45,7 @@
    ![img2](./img/img2.png)
 
 4. サンプルコードを書き込める状態まで準備する  
-   シェルに以下のように表示されていれば、Thonnyからmicrocat1にコードを書き込む準備ができています。
+   シェルに以下のように表示されていれば、ThonnyからMicroCat.1にコードを書き込む準備ができています。
 
    ![img3](./img/img3.png)
 

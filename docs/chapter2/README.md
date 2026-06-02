@@ -1,4 +1,4 @@
-# 2: Lチカでmicrocat1の動作とMicroPythonでの制御方法を理解する
+# 2: LチカでMicroCat.1の動作とMicroPythonでの制御方法を理解する
 
 この章では、最初の動作確認として LED を点滅させます。
 
@@ -8,13 +8,13 @@
 
 ## この章のゴール
 
-- Thonny から microcat1 にコードを書き込む
-- 最小コードで LEDを点滅(Lチカ)させ、microcat1を内蔵のMicro Pythonで制御できることを確認する
+- Thonny から MicroCat.1 にコードを書き込む
+- 最小コードで LEDを点滅(Lチカ)させ、MicroCat.1を内蔵のMicro Pythonで制御できることを確認する
 
 ## 手順
 
-microcat1に内蔵されたLEDを、pythonから点滅させてみましょう。
-microcat1には、2つのLEDが搭載されています。
+MicroCat.1に内蔵されたLEDを、pythonから点滅させてみましょう。
+MicroCat.1には、2つのLEDが搭載されています。
 
 ![LEDの位置](image/led_position.png)
 
