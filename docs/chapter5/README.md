@@ -7,26 +7,26 @@
 ## この章のゴール
 
 - センサー接続の発展課題に取り組む
-- 取得したセンサーデータを microcat1 から送信する
+- 取得したセンサーデータを MicroCat.1 から送信する
 - 送信結果を Harvest で再確認する
 
 今回利用するセンサーは、いずれもGroveという規格のコネクタを使用しているため、Grove コネクタを持つセンサーシールドやブレイクアウトボードを使用して接続することができます。例えばSORACOMのオンラインストアで販売されている「Wio BG770A」というマイコンはGroveコネクタを持っていて、このセンサー類を接続することが出来ます。
 
-Micro.Cat1やRaspberry PiにはGroveコネクタがないため、今回はGroveをジャンパーピンに変換するケーブルを利用します。
+MicroCat.1やRaspberry PiにはGroveコネクタがないため、今回はGroveをジャンパーピンに変換するケーブルを利用します。
 
 ## 1. 温湿度センサー
 
 温湿度センサーを繋いでみましょう。
 
-(センサーの写真)
+![温湿度センサー](img/temp-hum-sensor.png)
 
-Micro.Cat1の裏側(針のようなピンが並んでいる側)に、以下の3つを接続します。
+MicroCat.1の裏側(針のようなピンが並んでいる側)に、以下の3つを接続します。
 
 - 3V3 (3.3V電源)
 - GND (グラウンド)
 - GPIO 16 (データ信号)
 
-(接続の写真)
+![温湿度センサーを接続](img/connect-temp-hum-sensor.png)
 
 MicroPythonでは、GPIO 16のデジタルデータを取得することでデータを取得できます。以下のコードを貼り付けてみてください。
 
@@ -34,7 +34,7 @@ MicroPythonでは、GPIO 16のデジタルデータを取得することでデ�
 import machine
 import dht
 import time
-
+ 
 sensor = dht.DHT11(machine.Pin(16))  # DATA を GPIO16 に接続した場合
 
 while True:
@@ -56,20 +56,19 @@ while True:
 
 正常に取得できたら、chapter4のプログラムと組み合わせて、このデータをSORACOMへ送信してみましょう。
 
-
 ## 2. 距離センサー
 
 超音波を使って物体までの距離を測定するセンサーを繋いでみましょう。
 
-(センサーの写真)
+![超音波センサー](img/ultrasonic-sensor.png)
 
-Micro.Cat1の裏側(針のようなピンが並んでいる側)に、以下の3つを接続します。
+MicroCat.1の裏側(針のようなピンが並んでいる側)に、以下の3つを接続します。
 
 - 3V3 (3.3V電源)
 - GND (グラウンド)
 - GPIO 15 (データ信号)
 
-(接続の写真)
+![超音波センサーを接続](img/connect-ultrasonic-sensor.png)
 
 Raspberry Pi Picoで使う場合、トリガーバルスを送る必要があるので少しコードが煩雑になっています。
 
