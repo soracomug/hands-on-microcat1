@@ -1,7 +1,7 @@
 # hands-on-microcat1
 
-microcat1 を SORACOM に接続するハンズオン手順書のリポジトリです。  
-microcat1 については [製品ページ](https://store.mechatrax.com/product.php?id=84) を参照してください。
+MicroCat.1 を SORACOM に接続するハンズオン手順書のリポジトリです。  
+MicroCat.1 については [製品ページ](https://store.mechatrax.com/product.php?id=84) を参照してください。
 
 ## ハンズオン全体像
 
