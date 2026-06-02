@@ -1,6 +1,6 @@
 # 4: SORACOM へデータ送信して Harvest で確認
 
-この章では、microcat1 から SORACOM へデータを送信し、Harvest で受信結果を確認します。
+この章では、MicroCat.1 から SORACOM へデータを送信し、Harvest で受信結果を確認します.
 
 ## 想定時間
 
@@ -8,7 +8,7 @@
 
 ## この章のゴール
 
-- microcat1 からセルラー通信でデータを送る
+- MicroCat.1 からセルラー通信でデータを送る
 - Harvest Data 上で受信したデータを確認する
 - 送信内容と表示内容の対応を理解する
 
@@ -16,20 +16,20 @@
 
 この章では、前の章で設定した SIM グループを使います。次の状態になっていることを確認してください。
 
-- microcat1 に SIM が挿入されている
+- MicroCat.1 に SIM が挿入されている
 - SIM が所属するグループで SORACOM Harvest Data が ON になっている
-- Thonny から microcat1 にプログラムを実行できる
+- Thonny から MicroCat.1 にプログラムを実行できる
 
 ## 送信するデータ
 
-この章では、外付けセンサーの値ではなく、microcat1 の内部で取得できる値を送信します。
+この章では、外付けセンサーの値ではなく、MicroCat.1 の内部で取得できる値を送信します。
 
 | 項目 | 内容 |
 | --- | --- |
 | `uptime_ms` | プログラム実行時点の起動後経過時間です。 |
-| `mcu_temp_c` | microcat1 の MCU 内蔵温度センサーから取得した温度の概算値です。 |
+| `mcu_temp_c` | MicroCat.1 の MCU 内蔵温度センサーから取得した温度の概算値です。 |
 
-`uptime_ms` と `mcu_temp_c` は、どちらも外付けセンサーを使わずに microcat1 の内部で取得できる値です。
+`uptime_ms` と `mcu_temp_c` は、どちらも外付けセンサーを使わずに MicroCat.1 の内部で取得できる値です。
 
 ## REPL で 1 つずつ確認する
 
@@ -59,7 +59,7 @@ print(round(mcu_temp_c, 2))
 
 どちらも数値が表示されれば、内部データを取得できています。
 
-microcat1 では、MCU 内蔵温度センサーの ADC 入力を `ADC(ADC.CORE_TEMP)` で指定します。MicroCat.1 は RP2350B のため、古い Pico/RP2040 向けの例で見かける `ADC(4)` は使いません。
+MicroCat.1 では、MCU 内蔵温度センサーの ADC 入力を `ADC(ADC.CORE_TEMP)` で指定します。MicroCat.1 は RP2350B のため、古い Pico/RP2040 向けの例で見かける `ADC(4)` は使いません。
 
 ![Thonny の REPL で内部データを確認する](./images/thonny-repl-internal-data.png)
 
@@ -120,7 +120,7 @@ modem.disconnect()
 
 REPL で確認できたら、同じ処理を 1 つのコードとして保存します。
 
-Thonny で新しいファイルを作成し、次のコードを貼り付けます。その後、microcat1 に `main.py` としてアップロードして実行します。
+Thonny で新しいファイルを作成し、次のコードを貼り付けます。その後、MicroCat.1 に `main.py` としてアップロードして実行します。
 
 ```python
 from machine import ADC
@@ -218,7 +218,7 @@ SIM が所属するグループで SORACOM Harvest Data が ON になってい�
 
 ### Thonny の接続が切れた
 
-Thonny のメニューから `Run` -> `Stop/Restart backend` を選択して、microcat1 に再接続します。Shell に `>>>` が表示されれば再開できます。
+Thonny のメニューから `Run` -> `Stop/Restart backend` を選択して、MicroCat.1 に再接続します。Shell に `>>>` が表示されれば再開できます。
 
 ### Harvest Data にデータが表示されない
 
